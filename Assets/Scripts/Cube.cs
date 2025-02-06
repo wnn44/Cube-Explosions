@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
-    public static event Action<Vector3> PositionCube;
+    public static event Action<Vector3, float> PositionCube;
 
     private Renderer _renderer;
 
-    private void Start()
+    private void Awake()
     {
         _renderer = GetComponent<Renderer>();
 
@@ -17,13 +17,10 @@ public class Cube : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         Vector3 cube = transform.position;
-
-        PositionCube?.Invoke(cube);
+        PositionCube?.Invoke(cube, gameObject.transform.localScale.x);
 
         Destroy(gameObject);
     }
-
-
 
     private Color RandomColor()
     {
