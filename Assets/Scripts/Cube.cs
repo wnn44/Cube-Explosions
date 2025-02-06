@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
-    public static event Action<Vector3, float> PositionCube;
+    public float ChanceSeparation;
 
     private Renderer _renderer;
 
@@ -12,14 +11,6 @@ public class Cube : MonoBehaviour
         _renderer = GetComponent<Renderer>();
 
         _renderer.material.color = RandomColor();
-    }
-
-    private void OnMouseUpAsButton()
-    {
-        Vector3 cube = transform.position;
-        PositionCube?.Invoke(cube, gameObject.transform.localScale.x);
-
-        Destroy(gameObject);
     }
 
     private Color RandomColor()
