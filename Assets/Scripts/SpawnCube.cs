@@ -7,6 +7,8 @@ public class SpawnCube : MonoBehaviour
     private Vector3 positionCube;
     private float _scale;
     private float _chance;
+    private int _maxNewCubes = 6;
+    private int _multiple = 2;
 
     private void OnEnable()
     {
@@ -22,7 +24,7 @@ public class SpawnCube : MonoBehaviour
     {
         positionCube = cube;
 
-        _scale = scale / 2;
+        _scale = scale / _multiple;
         _chance = chanceSeparation;
 
         Spawn();
@@ -38,19 +40,19 @@ public class SpawnCube : MonoBehaviour
             return false;
     }
 
-
     private void Spawn()
     {
         if (ÑalculatesÑhance())
         {
-            _prefabCube.transform.localScale = new Vector3(1f * _scale, 1f * _scale, 1f * _scale);
+            _prefabCube.transform.localScale = new Vector3(_scale, _scale, _scale);
 
-            int numberÑubes = Random.Range(1, 6);
+            int numberÑubes = Random.Range(1, _maxNewCubes);
 
             while (numberÑubes-- > 0)
             {
-                Instantiate(_prefabCube, positionCube, transform.rotation);
-                gameObject.GetComponent<Cube>().ChanceSeparation = _chance / 2;
+                Cube newCube = Instantiate(_prefabCube, positionCube, transform.rotation);
+
+                newCube.GetComponent<Cube>().ChanceSeparation = _chance / _multiple;
             }
         }
     }

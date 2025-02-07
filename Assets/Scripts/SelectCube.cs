@@ -10,11 +10,7 @@ public class SelectCube : MonoBehaviour
         Vector3 cube = transform.position;
 
         float chanceSeparation = gameObject.GetComponent<Cube>().ChanceSeparation;
-        Debug.Log(chanceSeparation+"--------");
-        
 
         PositionCube?.Invoke(cube, gameObject.transform.localScale.x, chanceSeparation);
-
-        Destroy(gameObject);
     }
 }
