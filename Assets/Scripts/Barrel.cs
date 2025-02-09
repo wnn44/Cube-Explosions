@@ -6,33 +6,29 @@ public class Barrel : MonoBehaviour
     [SerializeField] private float _explosionRadius;
     [SerializeField] private float _explosionForce;
 
-    private void OnMouseUpAsButton()
+    private List<Cube> _allCubes;
+
+    public void ReceiveList(List<Cube> allCubes)
     {
+        _allCubes = allCubes;
+        
         Explode();
-        Destroy(gameObject);
     }
 
-    private void Explode()
+    public void Explode()
     {
-        foreach (Rigidbody explodubleObject in GetExplodableObjects())
-            explodubleObject.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
-
-    }
-
-    private List<Rigidbody> GetExplodableObjects()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, _explosionRadius);
-
-        List<Rigidbody> barrels = new();
-
-        foreach (Collider hit in hits)
+        if (_allCubes != null)
         {
-            if (hit.attachedRigidbody != null)
+            foreach (Cube explodubleObject in _allCubes)
             {
-                barrels.Add(hit.attachedRigidbody);
+                Rigidbody rigidbody = explodubleObject.GetComponent<Rigidbody>();
+
+                if (rigidbody != null)
+                {
+                    rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
+                }
             }
         }
 
-        return barrels;
     }
 }

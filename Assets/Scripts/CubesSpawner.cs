@@ -1,38 +1,41 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnCube : MonoBehaviour
+public class CubesSpawner : MonoBehaviour
 {
     [SerializeField] private Cube _prefabCube;
 
+    private List<Cube> _allCubes;
     private Vector3 positionCube;
     private float _scale;
     private float _chance;
     private int _maxNewCubes = 6;
     private int _multiple = 2;
+    private int _maxChance = 100;
 
     private void OnEnable()
     {
-        SelectCube.PositionCube += GetCube;
+        Cube.PositionCube += SettingNewParameters;
     }
 
     private void OnDisable()
     {
-        SelectCube.PositionCube -= GetCube;
+        Cube.PositionCube -= SettingNewParameters;
     }
 
-    private void GetCube(Vector3 cube, float scale, float chanceSeparation)
+    private void SettingNewParameters(Vector3 cube, float scale, float chanceSeparation)
     {
         positionCube = cube;
 
         _scale = scale / _multiple;
-        _chance = chanceSeparation;
-
+        _chance = chanceSeparation; 
+        
         Spawn();
     }
 
-    private bool —alculates—hance()
+    private bool CalculatesChance()
     {
-        int droppedValue = Random.Range(1, 100);
+        int droppedValue = Random.Range(1, _maxChance);
 
         if (droppedValue <= _chance)
             return true;
@@ -42,7 +45,9 @@ public class SpawnCube : MonoBehaviour
 
     private void Spawn()
     {
-        if (—alculates—hance())
+        _allCubes = new List<Cube>();
+
+        if (CalculatesChance())
         {
             _prefabCube.transform.localScale = new Vector3(_scale, _scale, _scale);
 
@@ -52,8 +57,13 @@ public class SpawnCube : MonoBehaviour
             {
                 Cube newCube = Instantiate(_prefabCube, positionCube, transform.rotation);
 
-                newCube.GetComponent<Cube>().ChanceSeparation = _chance / _multiple;
+                _allCubes.Add(newCube);
+
+                newCube.GetComponent<Cube>().TakeChanceSeparation(_chance / _multiple);
             }
         }
+
+        Barrel barrel = GetComponent<Barrel>();
+        barrel.ReceiveList(_allCubes);
     }
 }
