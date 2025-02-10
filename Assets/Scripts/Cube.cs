@@ -1,38 +1,24 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
 public class Cube : MonoBehaviour
 {
     [SerializeField] private float _chanceSeparation;
-
+    
     public float ChanceSeparation => _chanceSeparation;
 
-    public static event Action<Vector3, float, float> PositionCube;
-
     private Renderer _renderer;
-
-    public void TakeChanceSeparation(float takeValue)
-    {
-        _chanceSeparation = takeValue;
-    }
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
 
-        _renderer.material.color = ChoosingColor();
+        _renderer.material.color = ChoosingColor();        
     }
 
-    private void OnMouseUpAsButton()
+    public void TakeChanceSeparation(float takeValue)
     {
-        Vector3 cube = transform.position;
-
-        float chanceSeparation = gameObject.GetComponent<Cube>().ChanceSeparation;
-
-        Destroy(gameObject);
-
-        PositionCube?.Invoke(cube, gameObject.transform.localScale.x, chanceSeparation);
+        _chanceSeparation = takeValue;
     }
 
     private Color ChoosingColor()

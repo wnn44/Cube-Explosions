@@ -6,29 +6,14 @@ public class Barrel : MonoBehaviour
     [SerializeField] private float _explosionRadius;
     [SerializeField] private float _explosionForce;
 
-    private List<Cube> _allCubes;
-
-    public void ReceiveList(List<Cube> allCubes)
+    public void Explode(List<Cube> allCubes)
     {
-        _allCubes = allCubes;
-        
-        Explode();
-    }
-
-    public void Explode()
-    {
-        if (_allCubes != null)
+        foreach (Cube explodubleObject in allCubes)
         {
-            foreach (Cube explodubleObject in _allCubes)
+            if (explodubleObject.TryGetComponent(out Rigidbody rigidbody))
             {
-                Rigidbody rigidbody = explodubleObject.GetComponent<Rigidbody>();
-
-                if (rigidbody != null)
-                {
-                    rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
-                }
+                rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
             }
         }
-
     }
 }
