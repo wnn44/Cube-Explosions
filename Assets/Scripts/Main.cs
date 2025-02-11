@@ -3,14 +3,18 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
-    public event Action<Transform> ObjectClicked;
+    public event Action<Transform, float> ObjectClicked;
 
-    public new Camera camera;
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+            LookingCube();
+    }
 
-    void LookingCube()
+    private void LookingCube()
     {
         RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -18,14 +22,8 @@ public class Main : MonoBehaviour
 
             if (objectHit.TryGetComponent<Cube>(out Cube cube))
             {
-                ObjectClicked?.Invoke(objectHit);
+                ObjectClicked?.Invoke(objectHit, cube.ChanceSeparation);
             }
         }
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-            LookingCube();
     }
 }

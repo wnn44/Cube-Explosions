@@ -6,7 +6,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Cube _prefabCube;
     [SerializeField] private Main _main;
 
-    private List<Cube> _allCubes;
+    private List<Rigidbody> _rbAllCubes;
     private Vector3 _positionCube;
     private float _scale;
     private float _chance;
@@ -24,11 +24,11 @@ public class Spawner : MonoBehaviour
         _main.ObjectClicked -= PreparingNewState;
     }
 
-    private void PreparingNewState(Transform cube)
+    private void PreparingNewState(Transform cube, float chance)
     {
         _positionCube = cube.position;
         _scale = cube.localScale.x / _multiple;
-        _chance = cube.GetComponent<Cube>().ChanceSeparation;
+        _chance = chance;
 
         Destroy(cube.gameObject);
 
@@ -42,7 +42,7 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-        _allCubes = new List<Cube>();
+       _rbAllCubes = new List<Rigidbody>();
 
         if (CalculatesChance())
         {
@@ -54,13 +54,16 @@ public class Spawner : MonoBehaviour
             {
                 Cube newCube = Instantiate(_prefabCube, _positionCube, transform.rotation);
 
-                _allCubes.Add(newCube);
+                if (newCube.TryGetComponent(out Rigidbody rigidbodyb))
+                {
+                    _rbAllCubes.Add(rigidbodyb);
+                }
 
                 newCube.GetComponent<Cube>().TakeChanceSeparation(_chance / _multiple);
             }
         }
 
-        Barrel barrel = GetComponent<Barrel>();
-        barrel.Explode(_allCubes);
+        Blasting blasting = GetComponent<Blasting>();
+        blasting.Explode(_rbAllCubes);
     }
 }
