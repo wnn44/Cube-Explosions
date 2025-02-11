@@ -4,7 +4,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Cube _prefabCube;
-    [SerializeField] private Main _main;
+    [SerializeField] private PlayerController _main;
 
     private List<Rigidbody> _rbAllCubes;
     private Vector3 _positionCube;
@@ -52,18 +52,18 @@ public class Spawner : MonoBehaviour
 
             while (numberÑubes-- > 0)
             {
-                Cube newCube = Instantiate(_prefabCube, _positionCube, transform.rotation);
+                Cube cube = Instantiate(_prefabCube, _positionCube, transform.rotation);
 
-                if (newCube.TryGetComponent(out Rigidbody rigidbodyb))
+                if (cube.TryGetComponent(out Rigidbody rigidbodyb))
                 {
                     _rbAllCubes.Add(rigidbodyb);
                 }
 
-                newCube.GetComponent<Cube>().TakeChanceSeparation(_chance / _multiple);
+                cube.GetComponent<Cube>().SaveChances(_chance / _multiple);
             }
         }
 
-        Blasting blasting = GetComponent<Blasting>();
+        Detonator blasting = GetComponent<Detonator>();
         blasting.Explode(_rbAllCubes);
     }
 }

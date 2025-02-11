@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Main : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public event Action<Transform, float> ObjectClicked;
 
@@ -22,7 +22,7 @@ public class Main : MonoBehaviour
 
             if (objectHit.TryGetComponent<Cube>(out Cube cube))
             {
-                ObjectClicked?.Invoke(objectHit, cube.ChanceSeparation);
+                ObjectClicked?.Invoke(objectHit, cube.GetingChances);
             }
         }
     }

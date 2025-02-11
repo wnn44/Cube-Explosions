@@ -7,7 +7,7 @@ public class Cube : MonoBehaviour
 
     private Renderer _renderer;
 
-    public float ChanceSeparation => _chanceSeparation;
+    public float GetingChances => _chanceSeparation;
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class Cube : MonoBehaviour
         _renderer.material.color = GenerateRandomColor();
     }
 
-    public void TakeChanceSeparation(float takeValue)
+    public void SaveChances(float takeValue)
     {
         _chanceSeparation = takeValue;
     }
