@@ -371,6 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosionRadius: 100
   _explosionForce: 2000
+  _upwardModifier: 100
 --- !u!1 &643747418
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,7 +767,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e2cb839fcd9fc4796c067a2a662215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1551240423}
 --- !u!4 &1261929892
 Transform:
   m_ObjectHideFlags: 0
