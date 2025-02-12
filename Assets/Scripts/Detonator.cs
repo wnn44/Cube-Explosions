@@ -7,9 +7,9 @@ public class Detonator : MonoBehaviour
     [SerializeField] private float _explosionForce;
     [SerializeField] private float _upwardModifier;
 
-    public void Explode(List<Rigidbody> allCubes)
+    public void Explode(List<Rigidbody> newCubes)
     {
-        foreach (Rigidbody explodubleObject in allCubes)
+        foreach (Rigidbody explodubleObject in newCubes)
         {
             explodubleObject.AddExplosionForce(_explosionForce, transform.position, _explosionRadius, _upwardModifier);
         }

@@ -1,38 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Detonator))]
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Cube _prefabCube;
     [SerializeField] private PlayerController _main;
 
-    private List<Rigidbody> _rbAllCubes;
-    private Vector3 _positionCube;
-    private float _scale;
+    private List<Rigidbody> _newCubes;
+
     private float _chance;
+    private int _minNewCubes = 2;
     private int _maxNewCubes = 6;
     private int _multiple = 2;
     private int _maxChance = 100;
 
+    private Detonator _blasting;
+
     private void OnEnable()
     {
-        _main.ObjectClicked += PreparingNewState;
+        _main.ObjectClicked += Spawn;
     }
 
     private void OnDisable()
     {
-        _main.ObjectClicked -= PreparingNewState;
+        _main.ObjectClicked -= Spawn;
     }
 
-    private void PreparingNewState(Transform cube, float chance)
+    private void Awake()
     {
-        _positionCube = cube.position;
-        _scale = cube.localScale.x / _multiple;
-        _chance = chance;
-
-        Destroy(cube.gameObject);
-
-        Spawn();
+        _blasting = GetComponent<Detonator>();
     }
 
     private bool CalculatesChance()
@@ -40,30 +37,36 @@ public class Spawner : MonoBehaviour
         return Random.Range(1, _maxChance) <= _chance;
     }
 
-    private void Spawn()
+    private void Spawn(Cube cube)
     {
-       _rbAllCubes = new List<Rigidbody>();
+        Vector3 positionCube = cube.transform.position;
+        float scale = cube.transform.localScale.x / _multiple;
+        
+        _newCubes = new List<Rigidbody>();
+
+        _chance = cube.ÑhanceSeparation;
+
+        Destroy(cube.gameObject);
 
         if (CalculatesChance())
         {
-            _prefabCube.transform.localScale = new Vector3(_scale, _scale, _scale);
+            _prefabCube.transform.localScale = new Vector3(scale, scale, scale);
 
-            int numberÑubes = Random.Range(1, _maxNewCubes);
+            int numberÑubes = Random.Range(_minNewCubes, _maxNewCubes);
 
             while (numberÑubes-- > 0)
             {
-                Cube cube = Instantiate(_prefabCube, _positionCube, transform.rotation);
+                Cube newCube = Instantiate(_prefabCube, positionCube, transform.rotation);
 
-                if (cube.TryGetComponent(out Rigidbody rigidbodyb))
+                if (newCube.TryGetComponent(out Rigidbody rigidbodyb))
                 {
-                    _rbAllCubes.Add(rigidbodyb);
+                    _newCubes.Add(rigidbodyb);
                 }
 
-                cube.GetComponent<Cube>().SaveChances(_chance / _multiple);
+                newCube.SaveChances(_chance / _multiple);                
             }
         }
 
-        Detonator blasting = GetComponent<Detonator>();
-        blasting.Explode(_rbAllCubes);
+        _blasting.Explode(_newCubes);
     }
 }

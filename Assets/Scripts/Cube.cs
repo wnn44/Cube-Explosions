@@ -7,7 +7,7 @@ public class Cube : MonoBehaviour
 
     private Renderer _renderer;
 
-    public float GetingChances => _chanceSeparation;
+    public float ÑhanceSeparation => _chanceSeparation;
 
     private void Awake()
     {
