@@ -768,6 +768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawner: {fileID: 279927858}
+  _blasting: {fileID: 279927860}
 --- !u!4 &1261929892
 Transform:
   m_ObjectHideFlags: 0

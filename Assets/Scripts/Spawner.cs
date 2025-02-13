@@ -15,28 +15,17 @@ public class Spawner : MonoBehaviour
     private int _multiple = 2;
     private int _maxChance = 100;
 
-    private Detonator _blasting;
 
-    private void Awake()
-    {
-        _blasting = GetComponent<Detonator>();
-    }
 
-    private bool CalculatesChance()
-    {
-        return Random.Range(1, _maxChance) <= _chance;
-    }
 
-    public void Spawn(Cube cube)
+    public List<Rigidbody> Spawn(Cube cube)
     {
         Vector3 positionCube = cube.transform.position;
         float scale = cube.transform.localScale.x / _multiple;
-        
+
         _newCubes = new List<Rigidbody>();
 
         _chance = cube.ÑhanceSeparation;
-
-        Destroy(cube.gameObject);
 
         if (CalculatesChance())
         {
@@ -52,11 +41,14 @@ public class Spawner : MonoBehaviour
                 {
                     _newCubes.Add(rigidbodyb);
                 }
-
                 newCube.SaveChances(_chance / _multiple);                
             }
         }
+        return _newCubes;
+    }
 
-        _blasting.Explode(_newCubes);
+    private bool CalculatesChance()
+    {
+        return Random.Range(1, _maxChance) <= _chance;
     }
 }
