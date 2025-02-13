@@ -250,7 +250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5821557434894111427, guid: 2241f9f4d96741a4ebd952886c8eedca, type: 3}
       propertyPath: _chanceSeparation
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5821557434894111431, guid: 2241f9f4d96741a4ebd952886c8eedca, type: 3}
       propertyPath: m_RootOrder
@@ -340,7 +340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c98ea0ce0b89144bd7cc3d32a5d519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabCube: {fileID: 5821557434894111427, guid: 2241f9f4d96741a4ebd952886c8eedca, type: 3}
   _main: {fileID: 1261929891}
 --- !u!4 &279927859
 Transform:
@@ -597,7 +596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5821557434894111427, guid: 2241f9f4d96741a4ebd952886c8eedca, type: 3}
       propertyPath: _chanceSeparation
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5821557434894111431, guid: 2241f9f4d96741a4ebd952886c8eedca, type: 3}
       propertyPath: m_RootOrder
@@ -674,7 +673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5821557434894111427, guid: 2241f9f4d96741a4ebd952886c8eedca, type: 3}
       propertyPath: _chanceSeparation
-      value: 100
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5821557434894111431, guid: 2241f9f4d96741a4ebd952886c8eedca, type: 3}
       propertyPath: m_RootOrder

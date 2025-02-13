@@ -7,43 +7,31 @@ public class Spawner : MonoBehaviour
     [SerializeField] private PlayerController _main;
 
     private List<Rigidbody> _newCubes;
-    private float _chance;
-    private int _minNewCubes = 2;
-    private int _maxNewCubes = 6;
-    private int _multiple = 2;
-    private int _maxChance = 100;
+    private int _multipleScale = 2;
+    private int _numberOfSpawnCubes;
 
     public List<Rigidbody> Spawn(Cube cube)
     {
         Vector3 positionCube = cube.transform.position;
-        float scale = cube.transform.localScale.x / _multiple;
+
+        float scale = cube.transform.localScale.x / _multipleScale;
 
         _newCubes = new List<Rigidbody>();
 
-        _chance = cube.ÑhanceSeparation;
+        _numberOfSpawnCubes = cube.NumberOfSpawnCubes;
 
-        if (CalculatesChance())
+        cube.transform.localScale = new Vector3(scale, scale, scale);
+
+        while (_numberOfSpawnCubes-- > 0)
         {
-            cube.transform.localScale = new Vector3(scale, scale, scale);
+            Cube newCube = Instantiate(cube, positionCube, transform.rotation);
 
-            int numberÑubes = Random.Range(_minNewCubes, _maxNewCubes);
-
-            while (numberÑubes-- > 0)
+            if (newCube.TryGetComponent(out Rigidbody rigidbodyb))
             {
-                Cube newCube = Instantiate(cube, positionCube, transform.rotation);
-
-                if (newCube.TryGetComponent(out Rigidbody rigidbodyb))
-                {
-                    _newCubes.Add(rigidbodyb);
-                }
-                newCube.SaveChances(_chance / _multiple);
+                _newCubes.Add(rigidbodyb);
             }
         }
-        return _newCubes;
-    }
 
-    private bool CalculatesChance()
-    {
-        return Random.Range(1, _maxChance) <= _chance;
+        return _newCubes;
     }
 }
