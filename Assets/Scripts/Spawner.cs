@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Detonator))]
-[RequireComponent(typeof(CubeExplosion))]
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Cube _prefabCube;
@@ -17,7 +16,6 @@ public class Spawner : MonoBehaviour
     private int _maxChance = 100;
 
     private Detonator _blasting;
-    private CubeExplosion _cubeExplosion;
 
     private void OnEnable()
     {
@@ -32,7 +30,6 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         _blasting = GetComponent<Detonator>();
-        _cubeExplosion = GetComponent<CubeExplosion>();
     }
 
     private bool CalculatesChance()
@@ -44,14 +41,12 @@ public class Spawner : MonoBehaviour
     {
         Vector3 positionCube = cube.transform.position;
         float scale = cube.transform.localScale.x / _multiple;
-
+        
         _newCubes = new List<Rigidbody>();
 
         _chance = cube.ÑhanceSeparation;
 
-        //Destroy(cube.gameObject);
-        _cubeExplosion.DestroyMy(cube);
-
+        Destroy(cube.gameObject);
 
         if (CalculatesChance())
         {
@@ -68,7 +63,7 @@ public class Spawner : MonoBehaviour
                     _newCubes.Add(rigidbodyb);
                 }
 
-                newCube.SaveChances(_chance / _multiple);
+                newCube.SaveChances(_chance / _multiple);                
             }
         }
 
