@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private readonly int _leftKeyMouse = 0;
     private Cube _cube;
 
+
     private void Awake()
     {
         _camera = Camera.main;
