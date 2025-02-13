@@ -10,7 +10,6 @@ public class Cube : MonoBehaviour
     private int _maxNewCubes = 6;
     private int _maxChance = 100;
     private int _multiple = 2;
-    private float _chance;
     private Renderer _renderer;
 
     public int NumberOfSpawnCubes => _numberOfSpawnCubes;

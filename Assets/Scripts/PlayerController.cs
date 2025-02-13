@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +6,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Spawner _spawner;
     [SerializeField] Detonator _blasting;
 
+    private readonly int _leftKeyMouse = 0;
     private Camera _camera;
     private List<Rigidbody> newCubes;
-    private readonly int _leftKeyMouse = 0;
     private Cube _cube;
 
     private void Awake()
@@ -34,7 +33,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private Cube SelectCubeInScene()
+    private void SelectCubeInScene()
     {
         RaycastHit hit;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
@@ -42,13 +41,8 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Transform objectHit = hit.transform;
-            
-            if (objectHit.TryGetComponent<Cube>(out _cube))
-            {
-                return _cube;
-            }
-            return null;
+
+            objectHit.TryGetComponent<Cube>(out _cube);
         }
-        return null;
     }
 }
