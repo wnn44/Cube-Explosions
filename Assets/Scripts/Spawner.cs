@@ -17,16 +17,6 @@ public class Spawner : MonoBehaviour
 
     private Detonator _blasting;
 
-    private void OnEnable()
-    {
-        _main.ObjectClicked += Spawn;
-    }
-
-    private void OnDisable()
-    {
-        _main.ObjectClicked -= Spawn;
-    }
-
     private void Awake()
     {
         _blasting = GetComponent<Detonator>();
@@ -37,7 +27,7 @@ public class Spawner : MonoBehaviour
         return Random.Range(1, _maxChance) <= _chance;
     }
 
-    private void Spawn(Cube cube)
+    public void Spawn(Cube cube)
     {
         Vector3 positionCube = cube.transform.position;
         float scale = cube.transform.localScale.x / _multiple;

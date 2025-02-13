@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public event Action<Cube> ObjectClicked;
+    [SerializeField] Spawner _spawner;
 
     private Camera _camera;
 
@@ -29,7 +29,8 @@ public class PlayerController : MonoBehaviour
             
             if (objectHit.TryGetComponent<Cube>(out Cube cube))
             {
-                ObjectClicked?.Invoke(cube);
+                _spawner.Spawn(cube);
+
             }
         }
     }
