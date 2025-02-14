@@ -3,13 +3,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Spawner _spawner;
-    [SerializeField] Detonator _blasting;
+    [SerializeField] private Spawner _spawner;
+    [SerializeField] private Detonator _blasting;
 
     private readonly int _leftKeyMouse = 0;
+    private int _maxChance = 100;
     private Camera _camera;
-    private List<Rigidbody> newCubes;
-    private Cube _cube;
 
     private void Awake()
     {
@@ -18,23 +17,30 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        List<Rigidbody> newCubes;
+
         if (Input.GetMouseButtonDown(_leftKeyMouse))
         {
-            SelectCubeInScene();
+            Cube cube = SelectCubeInScene();
 
-            if (_cube != null)
+            if (cube != null)
             {
-                newCubes = _spawner.Spawn(_cube);
+                if (Random.Range(1, _maxChance) <= cube.ChanceSeparation)
+                {
+                    newCubes = _spawner.Spawn(cube);
 
-                _blasting.Explode(newCubes);
+                    _blasting.Explode(newCubes);
+                }
 
-                Destroy(_cube.gameObject);
+                Destroy(cube.gameObject);
             }
         }
     }
 
-    private void SelectCubeInScene()
+    private Cube SelectCubeInScene()
     {
+        Cube cube = null;
+
         RaycastHit hit;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
@@ -42,7 +48,9 @@ public class PlayerController : MonoBehaviour
         {
             Transform objectHit = hit.transform;
 
-            objectHit.TryGetComponent<Cube>(out _cube);
+            objectHit.TryGetComponent<Cube>(out cube);
         }
+
+        return cube;
     }
 }

@@ -4,34 +4,32 @@ using UnityEngine;
 [RequireComponent(typeof(Detonator))]
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private PlayerController _main;
-
-    private List<Rigidbody> _newCubes;
     private int _multipleScale = 2;
-    private int _numberOfSpawnCubes;
+    private int _minNewCubes = 2;
+    private int _maxNewCubes = 6;
 
     public List<Rigidbody> Spawn(Cube cube)
     {
+        int numberOfSpawnCubes = Random.Range(_minNewCubes, _maxNewCubes);
+
         Vector3 positionCube = cube.transform.position;
 
         float scale = cube.transform.localScale.x / _multipleScale;
 
-        _newCubes = new List<Rigidbody>();
-
-        _numberOfSpawnCubes = cube.NumberOfSpawnCubes;
+        List<Rigidbody> newCubes = new List<Rigidbody>();
 
         cube.transform.localScale = new Vector3(scale, scale, scale);
 
-        while (_numberOfSpawnCubes-- > 0)
+        for (int i = 0; numberOfSpawnCubes > i; i++)
         {
             Cube newCube = Instantiate(cube, positionCube, transform.rotation);
 
             if (newCube.TryGetComponent(out Rigidbody rigidbodyb))
             {
-                _newCubes.Add(rigidbodyb);
+                newCubes.Add(rigidbodyb);
             }
         }
 
-        return _newCubes;
+        return newCubes;
     }
 }
