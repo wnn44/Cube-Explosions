@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
-    [SerializeField] private Detonator _blasting;
+    [SerializeField] private Detonator _detonator;
+    [SerializeField] private float _explosionRadius;
 
     private readonly int _leftKeyMouse = 0;
     private int _maxChance = 100;
@@ -25,7 +27,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (Random.Range(_minChance, _maxChance) <= cube.ChanceSeparation)
                 {
-                     _blasting.Explode(_spawner.Spawn(cube));
+                    _detonator.Explode(_spawner.Spawn(cube), cube);
+                }
+                else
+                {
+                    _detonator.Explode(GetExplodableObjects(cube), cube);
                 }
 
                 Destroy(cube.gameObject);
@@ -48,4 +54,29 @@ public class PlayerController : MonoBehaviour
 
         return cube;
     }
+
+    private List<Rigidbody> GetExplodableObjects(Cube cube)
+    {
+        Collider[] hits = Physics.OverlapSphere(cube.transform.position, _explosionRadius);
+
+        List<Rigidbody> cubes = new();
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.attachedRigidbody != null)
+            {
+
+                Debug.Log(hit.attachedRigidbody.name);
+                cubes.Add(hit.attachedRigidbody);
+            }
+        }
+
+        return cubes;
+    }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = new Color(1f, 0f, 0f, 0.1f);
+    //    Gizmos.DrawSphere(transform.position, _explosionRadius);
+    //}
 }

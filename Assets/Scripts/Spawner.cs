@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Detonator))]
 public class Spawner : MonoBehaviour
 {
     private int _multipleScale = 2;
     private int _minNewCubes = 2;
     private int _maxNewCubes = 6;
+    private int _namber = 1;
 
     public List<Rigidbody> Spawn(Cube cube)
     {
@@ -23,6 +23,9 @@ public class Spawner : MonoBehaviour
         for (int i = 0; numberOfSpawnCubes > i; i++)
         {
             Cube newCube = Instantiate(cube, positionCube, transform.rotation);
+            
+            newCube.name = "cube" + _namber;
+            _namber++;
 
             if (newCube.TryGetComponent(out Rigidbody rigidbodyb))
             {
