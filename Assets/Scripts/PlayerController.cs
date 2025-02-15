@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private readonly int _leftKeyMouse = 0;
     private int _maxChance = 100;
     private int _minChance = 1;
+    private float _powerFactor = 3;
     private Camera _camera;
 
     private void Awake()
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        float ratio;
+
         if (Input.GetMouseButtonDown(_leftKeyMouse))
         {
             Cube cube = SelectCubeInScene();
@@ -27,11 +30,13 @@ public class PlayerController : MonoBehaviour
             {
                 if (Random.Range(_minChance, _maxChance) <= cube.ChanceSeparation)
                 {
-                    _detonator.Explode(_spawner.Spawn(cube), cube);
+                    ratio = _powerFactor;
+                    _detonator.Explode(_spawner.Spawn(cube), cube, ratio);
                 }
                 else
                 {
-                    _detonator.Explode(GetExplodableObjects(cube), cube);
+                    ratio = cube.transform.localScale.x;
+                    _detonator.Explode(GetExplodableObjects(cube), cube, ratio);
                 }
 
                 Destroy(cube.gameObject);
@@ -65,18 +70,9 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.attachedRigidbody != null)
             {
-
-                Debug.Log(hit.attachedRigidbody.name);
                 cubes.Add(hit.attachedRigidbody);
             }
         }
-
         return cubes;
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = new Color(1f, 0f, 0f, 0.1f);
-    //    Gizmos.DrawSphere(transform.position, _explosionRadius);
-    //}
 }

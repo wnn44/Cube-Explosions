@@ -142,6 +142,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosionRadius: 15
-  _explosionForce: 1000
-  _upwardModifier: 5000
-  _effect: {fileID: 0}
+  _explosionForce: 2000
+  _upwardModifier: 5

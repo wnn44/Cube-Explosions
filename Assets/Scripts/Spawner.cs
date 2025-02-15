@@ -24,8 +24,7 @@ public class Spawner : MonoBehaviour
         {
             Cube newCube = Instantiate(cube, positionCube, transform.rotation);
             
-            newCube.name = "cube" + _namber;
-            _namber++;
+            newCube.name = "cube" + _namber++;
 
             if (newCube.TryGetComponent(out Rigidbody rigidbodyb))
             {
