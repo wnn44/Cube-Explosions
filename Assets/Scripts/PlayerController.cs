@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Spawner _spawner;
     [SerializeField] private Detonator _detonator;
     [SerializeField] private float _explosionRadius;
+    [SerializeField] private ParticleSystem _effect;
 
     private readonly int _leftKeyMouse = 0;
     private int _maxChance = 100;
@@ -37,6 +38,8 @@ public class PlayerController : MonoBehaviour
                 {
                     ratio = cube.transform.localScale.x;
                     _detonator.Explode(GetExplodableObjects(cube), cube, ratio);
+                    
+                    Instantiate(_effect, cube.transform.position, transform.rotation);
                 }
 
                 Destroy(cube.gameObject);
@@ -73,6 +76,7 @@ public class PlayerController : MonoBehaviour
                 cubes.Add(hit.attachedRigidbody);
             }
         }
+
         return cubes;
     }
 }

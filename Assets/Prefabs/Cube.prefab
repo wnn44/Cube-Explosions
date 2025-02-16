@@ -144,3 +144,4 @@ MonoBehaviour:
   _explosionRadius: 15
   _explosionForce: 2000
   _upwardModifier: 5
+  _effect: {fileID: 6456288123469408548, guid: a4572fbd793bc1c459d7c9bd68bba02d, type: 3}
